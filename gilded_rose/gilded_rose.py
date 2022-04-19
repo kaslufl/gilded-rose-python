@@ -1,5 +1,11 @@
 from gilded_rose import Item
 
+EXPIRED_VALUE = 0
+INCREASE_RATE = 1
+DECREASE_RATE = 1
+MAX_QUALITY = 50
+MIN_QUALITY = 0
+
 
 class GildedRose(object):
     items: list[Item]
@@ -10,29 +16,29 @@ class GildedRose(object):
     def update_quality(self):
         for item in self.items:
             if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
-                if item.quality > 0:
+                if item.quality > MIN_QUALITY:
                     if item.name != "Sulfuras, Hand of Ragnaros":
-                        item.quality = item.quality - 1
+                        item.quality = item.quality - DECREASE_RATE
             else:
-                if item.quality < 50:
-                    item.quality = item.quality + 1
+                if item.quality < MAX_QUALITY:
+                    item.quality = item.quality + INCREASE_RATE
                     if item.name == "Backstage passes to a TAFKAL80ETC concert":
                         if item.sell_in < 11:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
+                            if item.quality < MAX_QUALITY:
+                                item.quality = item.quality + INCREASE_RATE
                         if item.sell_in < 6:
-                            if item.quality < 50:
-                                item.quality = item.quality + 1
+                            if item.quality < MAX_QUALITY:
+                                item.quality = item.quality + INCREASE_RATE
             if item.name != "Sulfuras, Hand of Ragnaros":
-                item.sell_in = item.sell_in - 1
-            if item.sell_in < 0:
+                item.sell_in = item.sell_in - DECREASE_RATE
+            if item.sell_in < EXPIRED_VALUE:
                 if item.name != "Aged Brie":
                     if item.name != "Backstage passes to a TAFKAL80ETC concert":
-                        if item.quality > 0:
+                        if item.quality > MIN_QUALITY:
                             if item.name != "Sulfuras, Hand of Ragnaros":
-                                item.quality = item.quality - 1
+                                item.quality = item.quality - DECREASE_RATE
                     else:
                         item.quality = item.quality - item.quality
                 else:
-                    if item.quality < 50:
-                        item.quality = item.quality + 1
+                    if item.quality < MAX_QUALITY:
+                        item.quality = item.quality + INCREASE_RATE
