@@ -20,12 +20,14 @@ class GildedRose(object):
     def update_item(self, item):
         if self.is_decrementable(item):
             self.adjust_quality(DECREASE_RATE, item)
-        else:
-            if item.quality < MAX_QUALITY:
-                multiplier = self.increase_multiplier(item)
-                self.adjust_quality(INCREASE_RATE * multiplier, item)
 
-        if item.name != ItemEnum.SULFURAS.value:
+        if self.is_aged_brie(item):
+            self.adjust_quality(INCREASE_RATE, item)
+
+        if self.is_backstage_pass(item):
+            self.adjust_backstage_quality(item)
+
+        if not self.is_sulfuras(item):
             self.adjust_sell_in(DECREASE_RATE, item)
 
         if self.is_item_expirable(item):
@@ -49,18 +51,25 @@ class GildedRose(object):
     def adjust_sell_in(self, adjust, item):
         item.sell_in = item.sell_in + adjust
 
-    def adjust_quality(self, adjust, item):
-        if item.quality > MIN_QUALITY:
-            item.quality = item.quality + adjust
+    def is_sulfuras(self, item):
+        return item.name == ItemEnum.SULFURAS.value
 
+    def is_aged_brie(self, item):
+        return item.name == ItemEnum.AGED_BRIE.value
+
+    def adjust_quality(self, adjust, item):
+        item.quality = item.quality + adjust
+        if item.quality < MIN_QUALITY:
+            item.quality = MIN_QUALITY
         if item.quality > MAX_QUALITY:
             item.quality = MAX_QUALITY
 
-    def increase_multiplier(self, item):
-        multiplier = 1
-        if item.name == ItemEnum.BACKSTAGE_PASS.value:
-            if item.sell_in < 11:
-                multiplier += 1
-            if item.sell_in < 6:
-                multiplier += 1
-        return multiplier
+    def adjust_backstage_quality(self, item):
+        self.adjust_quality(INCREASE_RATE, item)
+        if item.sell_in < 11:
+            self.adjust_quality(INCREASE_RATE, item)
+        if item.sell_in < 6:
+            self.adjust_quality(INCREASE_RATE, item)
+
+    def is_backstage_pass(self, item):
+        return item.name == ItemEnum.BACKSTAGE_PASS.value
