@@ -1,4 +1,4 @@
-from gilded_rose import Item
+from gilded_rose import Item, ItemEnum
 
 EXPIRED_VALUE = 0
 INCREASE_RATE = 1
@@ -15,27 +15,27 @@ class GildedRose(object):
 
     def update_quality(self):
         for item in self.items:
-            if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert":
+            if item.name != ItemEnum.AGED_BRIE.value and item.name != ItemEnum.BACKSTAGE_PASS.value:
                 if item.quality > MIN_QUALITY:
-                    if item.name != "Sulfuras, Hand of Ragnaros":
+                    if item.name != ItemEnum.SULFURAS.value:
                         item.quality = item.quality - DECREASE_RATE
             else:
                 if item.quality < MAX_QUALITY:
                     item.quality = item.quality + INCREASE_RATE
-                    if item.name == "Backstage passes to a TAFKAL80ETC concert":
+                    if item.name == ItemEnum.BACKSTAGE_PASS.value:
                         if item.sell_in < 11:
                             if item.quality < MAX_QUALITY:
                                 item.quality = item.quality + INCREASE_RATE
                         if item.sell_in < 6:
                             if item.quality < MAX_QUALITY:
                                 item.quality = item.quality + INCREASE_RATE
-            if item.name != "Sulfuras, Hand of Ragnaros":
+            if item.name != ItemEnum.SULFURAS.value:
                 item.sell_in = item.sell_in - DECREASE_RATE
             if item.sell_in < EXPIRED_VALUE:
-                if item.name != "Aged Brie":
-                    if item.name != "Backstage passes to a TAFKAL80ETC concert":
+                if item.name != ItemEnum.AGED_BRIE.value:
+                    if item.name != ItemEnum.BACKSTAGE_PASS.value:
                         if item.quality > MIN_QUALITY:
-                            if item.name != "Sulfuras, Hand of Ragnaros":
+                            if item.name != ItemEnum.SULFURAS.value:
                                 item.quality = item.quality - DECREASE_RATE
                     else:
                         item.quality = item.quality - item.quality
