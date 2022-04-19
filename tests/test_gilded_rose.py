@@ -11,8 +11,6 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEquals("fixme", items[0].name)
 
-    #todo: conjured test
-
 
 if __name__ == '__main__':
     unittest.main()
