@@ -11,6 +11,10 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEquals("fixme", items[0].name)
 
-        
+    #todo: aged brie test
+    #todo: backstage passes test
+    #todo: conjured test
+
+
 if __name__ == '__main__':
     unittest.main()
