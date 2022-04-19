@@ -11,7 +11,6 @@ class GildedRoseTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEquals("fixme", items[0].name)
 
-    #todo: backstage passes test
     #todo: conjured test
 
 
