@@ -31,15 +31,10 @@ class GildedRose(object):
             self.adjust_sell_in(DECREASE_RATE, item)
 
         if self.is_item_expirable(item):
-            if item.name != ItemEnum.AGED_BRIE.value:
-                if item.name != ItemEnum.BACKSTAGE_PASS.value:
-                    if item.name != ItemEnum.SULFURAS.value:
-                        self.adjust_quality(DECREASE_RATE, item)
-                else:
-                    item.quality -= item.quality
-            else:
-                if item.quality < MAX_QUALITY:
-                    self.adjust_quality(INCREASE_RATE, item)
+            if self.is_decrementable(item):
+                self.adjust_quality(DECREASE_RATE, item)
+            if self.is_backstage_pass(item):
+                item.quality -= item.quality
 
     def is_item_expirable(self, item):
         return item.sell_in < EXPIRED_VALUE
