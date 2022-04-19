@@ -28,6 +28,12 @@ class BackstagePassTest(unittest.TestCase):
         gilded_rose.update_quality()
         self.assertEqual(0, items[0].quality)
 
+    def test_backstage_pass_quality_with_max_quality(self):
+        items = [Item("Backstage passes to a TAFKAL80ETC concert", 5, 49)]
+        gilded_rose = GildedRose(items)
+        gilded_rose.update_quality()
+        self.assertEqual(50, items[0].quality)
+
 
 if __name__ == '__main__':
     unittest.main()
